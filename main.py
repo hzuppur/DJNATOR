@@ -72,11 +72,11 @@ def mix2(song_a: Song, song_b: Song):
         out = song_a.read(song_a.seconds_to_samples(out_section['start']))
     fade_in_beats = min(song_a.section_duration_in_beats(oi), song_b.section_duration_in_beats(ii))
     a_fade_duration = song_a.beats_to_samples(fade_in_beats)
-
+    b_fade_duration = song_b.beats_to_samples(fade_in_beats)
     fade_a = time_stretch_over_time(song_a.read(a_fade_duration),
                                     out_section['bpm'], out_section['bpm'], in_section['bpm'])
-
-    fade_b = time_stretch_over_time(song_b.read_section(ii),
+    song_b.read(song_b.seconds_to_samples(in_section['start']))
+    fade_b = time_stretch_over_time(song_b.read(b_fade_duration),
                                     in_section['bpm'], out_section['bpm'], in_section['bpm'])
     low_ratio = out_section['section_bass'] / in_section['section_bass']
     band_ratio = out_section['section_mids'] / in_section['section_mids']
@@ -98,7 +98,7 @@ def mix2(song_a: Song, song_b: Song):
     sf.write(f"sick mixes/{song_a.title} - {song_b.title}.wav", out.T, samplerate=song_a.sr)
 
 
-def filter3_over_time(sequences, sr, low_curve, band_curve, high_curve, fade_out=False, filter_order=4):
+def filter3_over_time(sequences, sr, low_curve, band_curve, high_curve, fade_out=False, filter_order=12):
     low_pass = butter(filter_order, 200, btype='lowpass', output='sos', fs=sr)
     band_pass = butter(filter_order, (200, 5000), btype='bandpass', output='sos', fs=sr)
     high_pass = butter(filter_order, 5000, btype='highpass', output='sos', fs=sr)
