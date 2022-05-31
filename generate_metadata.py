@@ -70,7 +70,7 @@ def get_bass_level_change(bass_vec, beat_times, beat_change_lim):
 
 def get_song_metadata(song_path):
     # Load in the song
-    y, sr = librosa.load(path=song_path)
+    y, sr = librosa.load(path=song_path, sr=None, mono=False)
     # get song sections
     onset_env = librosa.onset.onset_strength(y=y, sr=sr, aggregate=np.median)
     times = librosa.times_like(onset_env, sr=sr, hop_length=hop_length)

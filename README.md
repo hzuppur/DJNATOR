@@ -1,5 +1,7 @@
 # DJNATOR - Auto DJ
 
+![ai will take your jobs](djnator.png)
+
 Project by: Hain Zuppur and Tõnis Hendrik Hlebnikov
 
 ## Metadata format
